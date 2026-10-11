@@ -193,13 +193,35 @@ class App:
             log.info("Backfill [%s]: scanning last %d message(s)%s ...", chat_name, limit,
                      f", max age {max_age:g}h" if cutoff else "")
 
+            found, topics = _lookup(self.cfg.channel_topics, ch, chat, chat_id)
+            topics = topics if found else self.cfg.topics
             recent, count, already = [], 0, 0
             try:
-                # Newest `limit` messages (Telethon default: newest first), processed oldest first.
-                async for msg in self.client.iter_messages(chat, limit=limit):
-                    if cutoff and msg.date and msg.date < cutoff:
-                        break  # older posts are not marked, a larger max age picks them up later
-                    recent.append(msg)
+                if topics and getattr(chat, "forum", False):
+                    # Forum with topic filter: scan each wanted topic on its own, so `limit`
+                    # counts messages of that topic, not of the whole group.
+                    # Topic messages are read via messages.getReplies (Telethon: reply_to=topic id).
+                    seen = set()
+                    for t in topics:
+                        n = 0
+                        try:
+                            async for msg in self.client.iter_messages(chat, limit=limit, reply_to=t):
+                                if cutoff and msg.date and msg.date < cutoff:
+                                    break
+                                if msg.id not in seen:
+                                    seen.add(msg.id)
+                                    recent.append(msg)
+                                    n += 1
+                        except Exception as e:
+                            log.error("Backfill [%s]: topic %s could not be read: %s", chat_name, t, e)
+                        log.info("Backfill [%s]: topic %s → %d message(s)", chat_name, t, n)
+                    recent.sort(key=lambda m: m.id, reverse=True)
+                else:
+                    # Newest `limit` messages (Telethon default: newest first), processed oldest first.
+                    async for msg in self.client.iter_messages(chat, limit=limit):
+                        if cutoff and msg.date and msg.date < cutoff:
+                            break  # older posts are not marked, a larger max age picks them up later
+                        recent.append(msg)
                 for msg in reversed(recent):
                     cid = msg.chat_id or chat_id
                     if self.storage.is_processed(cid, msg.id):

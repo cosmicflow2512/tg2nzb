@@ -56,9 +56,10 @@ Topics are not separate chats: list the group itself in `channels`
 (`-100<id>` from a message link `t.me/c/<id>/<topic>/<msg>`) and restrict with
 `TG_TOPICS` / `telegram.topics` (global) or `telegram.channel_topics` (per
 channel). `1` is the General topic. Every log line shows the topic as
-`[Group/topic N/msg]`. The backfill scans the last `backfill_limit` messages of
-the whole group, so raise it when the wanted topic is only a small part of the
-traffic.
+`[Group/topic N/msg]`. With a topic filter set, the backfill reads each wanted
+topic on its own (Telethon `iter_messages(reply_to=topic)`, i.e.
+`messages.getReplies`), so `backfill_limit` counts messages of that topic.
+Without a filter it scans the last `backfill_limit` messages of the whole group.
 
 ## SABnzbd key
 
