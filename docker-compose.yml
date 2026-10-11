@@ -1,0 +1,35 @@
+name: tg2sab
+
+services:
+  tg2sab:
+    build: .
+    image: tg2sab:latest
+    container_name: tg2sab
+    restart: unless-stopped
+    stdin_open: true   # required for first-run interactive Telegram login
+    tty: true
+    volumes:
+      # Direct cache pool path to avoid FUSE overhead and Mover interference.
+      # If your cache pool has a different name, replace 'cache' accordingly.
+      - /mnt/cache/appdata/tg2sab/config:/config
+      - /mnt/cache/appdata/tg2sab/data:/data
+    environment:
+      - TZ=Europe/Berlin
+      # Unraid standard: nobody:users. Override if you need a different runtime user.
+      - PUID=99
+      - PGID=100
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /data/heartbeat && test \"$$(cat /data/heartbeat)\" -gt \"$$(($$(date +%s) - 60))\""]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    # Optional ENV overrides (alternative to config.yaml):
+    # - TG_API_ID=
+    # - TG_API_HASH=
+    # - TG_CHANNELS=@channelone,@channeltwo
+    # - SAB_URL=http://192.168.0.20:8080
+    # - SAB_API_KEY=
+    # - SAB_CATEGORY=
+    # - PUSHOVER_TOKEN=
+    # - PUSHOVER_USER=

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <!-- Background: Unraid dark-theme squircle -->
+  <rect width="512" height="512" rx="112" fill="#0F1115"/>
+
+  <!-- Original paper-plane mark, pointing DOWN (the "send" motif turned into a download).
+       Two facets define the central fold; the concave top edge (notch at 256,240)
+       is what reads as a folded paper plane rather than a plain diamond.
+       N = nose (bottom), L/R = wing tips (top), C = back fold notch. -->
+
+  <!-- Far wing facet (primary messaging blue) -->
+  <polygon points="256,380 72,96 256,240" fill="#2AABEE"/>
+  <!-- Near wing facet (pale lit underside) -->
+  <polygon points="256,380 256,240 440,96" fill="#BFE4F7"/>
+
+  <!-- Download tray bar (accent) reinforcing the downward = download read -->
+  <rect x="172" y="424" width="168" height="26" rx="13" fill="#3DDC97"/>
+</svg>

@@ -1,0 +1,79 @@
+# tg2sab configuration
+# Place this file at /mnt/cache/appdata/tg2sab/config/config.yaml on Unraid.
+
+telegram:
+  # https://my.telegram.org → API development tools
+  api_id: 1234567
+  api_hash: "0123456789abcdef0123456789abcdef"
+
+  # @username (public) or numeric ID (e.g. -1001234567890)
+  channels:
+    - "@your_nzb_channel"
+    # - -1001234567890
+
+  session_dir: /data/session
+
+sabnzbd:
+  # Base URL as reachable from THIS container, incl. url_base if you set one in SAB.
+  url: "http://192.168.0.20:8080"
+
+  # SABnzbd → Config → General. The NZB key is enough (it can only add jobs).
+  # With the full API key, tg2sab additionally checks at startup that the categories exist.
+  api_key: "your-nzb-key"
+
+  # Default category ("" = SAB default). Destination folder, post-processing and
+  # script follow the category settings in SAB.
+  category: ""
+
+  # Per-channel category. Keys: @username, channel title, or numeric chat_id.
+  channel_categories:
+    # "@your_nzb_channel": "games"
+    # -1001234567890: "movies"
+
+  # -100 = default of category, -2 paused, -1 low, 0 normal, 1 high, 2 force
+  priority: -100
+  # -1 = default of category, 0 none, 1 +repair, 2 +repair/unpack, 3 +repair/unpack/delete
+  pp: -1
+  # "" = script of the category
+  script: ""
+
+  # Job name in SAB: "filename" (NZB filename) or "caption" (first line of the post)
+  job_name: filename
+
+  # Regexes run against the post caption; group 1 is sent to SAB as the unpack password.
+  # Default matches lines like "Passwort: xyz", "Password = xyz", "PW: xyz".
+  password_patterns:
+    - '(?im)^\s*(?:passwor[dt]|pw|pass)\s*[:=]\s*(\S.*?)\s*$'
+
+  # Attachments with these extensions are treated as NZB (in addition to an nzb MIME type).
+  file_extensions: [".nzb"]
+
+  # Safety limit for attachment size
+  max_nzb_mb: 50
+
+pushover:
+  token: ""
+  user: ""
+
+# Whole-word, case-insensitive keyword filter on filename + caption.
+# include: if set, only posts containing one of the words are queued.
+# exclude: posts containing one of the words are skipped.
+# Skipped posts are marked as processed.
+include_keywords: []
+exclude_keywords: []
+channel_include_keywords:
+  # "@your_nzb_channel": ["2160p"]
+channel_exclude_keywords:
+  # "@your_nzb_channel": ["DLC"]
+
+# On start: scan the last N messages per channel and queue unprocessed NZBs. 0 = off.
+backfill_limit: 20
+channel_backfill_limits:
+  # "-1002299893123": 0
+# Only posts younger than N hours are taken in the backfill (0 = no limit).
+# Older ones are not marked, so raising the value later still picks them up.
+backfill_max_age_hours: 24
+channel_backfill_max_age_hours:
+  # "@your_nzb_channel": 12
+
+state_db: /data/state.db

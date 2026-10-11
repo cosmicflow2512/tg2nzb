@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>tg2sab</Name>
+  <Repository>tg2sab:latest</Repository>
+  <Registry/>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Support/>
+  <Project>https://github.com/cosmicflow2512/tg2sab</Project>
+  <Overview>Telegram channel to SABnzbd bridge. Listens to configured Telegram channels via a Telethon userbot, downloads posted .nzb attachments and uploads them to SABnzbd (mode=addfile) with category, priority and an optional password parsed from the caption. Sends Pushover notifications.
+
+IMPORTANT: First run must be done interactively to enter the Telegram login code: docker run --rm -it -v /mnt/cache/appdata/tg2sab/config:/config -v /mnt/cache/appdata/tg2sab/data:/data tg2sab:latest  -- then start normally from the GUI.</Overview>
+  <Category>Downloaders Tools:Utilities</Category>
+  <WebUI/>
+  <TemplateURL/>
+  <Icon>https://raw.githubusercontent.com/cosmicflow2512/tg2sab/main/assets/icon.png</Icon>
+  <ExtraParams>--restart unless-stopped</ExtraParams>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled/>
+  <DonateText/>
+  <DonateLink/>
+  <Requires/>
+  <Config Name="Config Directory" Target="/config" Default="/mnt/cache/appdata/tg2sab/config" Mode="rw" Description="Holds config.yaml. ENV variables below override values in that file." Type="Path" Display="always" Required="true" Mask="false">/mnt/cache/appdata/tg2sab/config</Config>
+  <Config Name="Data Directory" Target="/data" Default="/mnt/cache/appdata/tg2sab/data" Mode="rw" Description="Telegram session, SQLite dedup database, heartbeat. Do NOT delete the session file." Type="Path" Display="always" Required="true" Mask="false">/mnt/cache/appdata/tg2sab/data</Config>
+  <Config Name="Telegram API ID" Target="TG_API_ID" Default="" Mode="" Description="api_id from https://my.telegram.org" Type="Variable" Display="always" Required="true" Mask="false"/>
+  <Config Name="Telegram API Hash" Target="TG_API_HASH" Default="" Mode="" Description="api_hash from https://my.telegram.org" Type="Variable" Display="always" Required="true" Mask="true"/>
+  <Config Name="Channels" Target="TG_CHANNELS" Default="" Mode="" Description="Comma-separated: @username or numeric IDs like -1002299893123" Type="Variable" Display="always" Required="true" Mask="false"/>
+  <Config Name="SABnzbd URL" Target="SAB_URL" Default="http://192.168.0.20:8080" Mode="" Description="SABnzbd base URL as reachable from this container (incl. url_base if set)." Type="Variable" Display="always" Required="true" Mask="false">http://192.168.0.20:8080</Config>
+  <Config Name="SABnzbd NZB/API Key" Target="SAB_API_KEY" Default="" Mode="" Description="NZB key from SABnzbd Config → General is enough. The full API key additionally enables the category check at startup." Type="Variable" Display="always" Required="true" Mask="true"/>
+  <Config Name="SABnzbd Category" Target="SAB_CATEGORY" Default="" Mode="" Description="Default category. Empty = SAB default. Per-channel categories only via config.yaml (channel_categories)." Type="Variable" Display="always" Required="false" Mask="false"/>
+  <Config Name="SABnzbd Priority" Target="SAB_PRIORITY" Default="-100" Mode="" Description="-100 = category default, -2 paused, -1 low, 0 normal, 1 high, 2 force" Type="Variable" Display="advanced" Required="false" Mask="false">-100</Config>
+  <Config Name="Backfill Limit" Target="BACKFILL_LIMIT" Default="20" Mode="" Description="On start, scan the last N messages per channel. 0 = off." Type="Variable" Display="always" Required="false" Mask="false">20</Config>
+  <Config Name="Backfill Max Age (hours)" Target="BACKFILL_MAX_AGE_HOURS" Default="" Mode="" Description="Only posts younger than N hours in the backfill. 0 = no limit. Empty = config.yaml." Type="Variable" Display="always" Required="false" Mask="false"/>
+  <Config Name="Pushover Token" Target="PUSHOVER_TOKEN" Default="" Mode="" Description="Optional." Type="Variable" Display="always" Required="false" Mask="true"/>
+  <Config Name="Pushover User Key" Target="PUSHOVER_USER" Default="" Mode="" Description="Optional." Type="Variable" Display="always" Required="false" Mask="true"/>
+  <Config Name="PUID" Target="PUID" Default="99" Mode="" Description="Runtime UID" Type="Variable" Display="advanced" Required="false" Mask="false">99</Config>
+  <Config Name="PGID" Target="PGID" Default="100" Mode="" Description="Runtime GID" Type="Variable" Display="advanced" Required="false" Mask="false">100</Config>
+  <Config Name="Timezone" Target="TZ" Default="Europe/Berlin" Mode="" Description="Container timezone" Type="Variable" Display="advanced" Required="false" Mask="false">Europe/Berlin</Config>
+</Container>
