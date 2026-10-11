@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <Container version="2">
   <Name>tg2nzb</Name>
-  <Repository>tg2nzb:latest</Repository>
-  <Registry/>
+  <Repository>ghcr.io/cosmicflow2512/tg2nzb:latest</Repository>
+  <Registry>https://github.com/cosmicflow2512/tg2nzb/pkgs/container/tg2nzb</Registry>
   <Network>bridge</Network>
   <MyIP/>
   <Shell>sh</Shell>

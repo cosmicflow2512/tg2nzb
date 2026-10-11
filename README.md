@@ -33,23 +33,22 @@ SABnzbd API reference: <https://sabnzbd.org/wiki/configuration/5.1/api>
 
 ## Setup on Unraid
 
-```sh
-mkdir -p /mnt/cache/appdata/tg2nzb/config /mnt/cache/appdata/tg2nzb/data
-cd /mnt/user/appdata
-git clone https://github.com/cosmicflow2512/tg2nzb.git tg2nzb-src
-cd tg2nzb-src
-cp config.example.yaml /mnt/cache/appdata/tg2nzb/config/config.yaml
-# edit config.yaml: api_id/api_hash, channels, sabnzbd.url, sabnzbd.api_key, categories
+The image is built by GitHub Actions on every push to `main` and published as
+`ghcr.io/cosmicflow2512/tg2nzb:latest` (also `:sha-<short>` and, for `v*` tags,
+`:<version>`).
 
-docker compose build
-docker compose run --rm -it tg2nzb   # first run: phone number + Telegram code
-docker compose up -d
-docker compose logs -f tg2nzb
-```
+1. Copy `tg2nzb.xml` to `/boot/config/plugins/dockerMan/templates-user/my-tg2nzb.xml`.
+2. Docker → Add Container → template `tg2nzb`, fill in Telegram API ID/hash,
+   channels, SAB key and category, Apply.
+3. Telegram login (once): `docker attach tg2nzb`, enter phone number, the code
+   from the Telegram app and the 2FA password if set; detach with Ctrl+P, Ctrl+Q.
+4. Updates: Docker tab → "check for updates" → apply.
 
-The Telegram session is a separate login from tg2jd. Copying tg2jd's
-`userbot.session` is possible in principle, but running two clients on the same
-session file in parallel is not supported by Telethon — log in fresh.
+Local build instead: `docker build -t tg2nzb:latest .` and set the template
+repository to `tg2nzb:latest`.
+
+The Telegram session is a separate login from tg2jd. Running two clients on the
+same session file in parallel is not supported by Telethon — log in fresh.
 
 ## SABnzbd key
 
