@@ -1,21 +1,21 @@
 <?xml version="1.0"?>
 <Container version="2">
-  <Name>tg2sab</Name>
-  <Repository>tg2sab:latest</Repository>
+  <Name>tg2nzb</Name>
+  <Repository>tg2nzb:latest</Repository>
   <Registry/>
   <Network>bridge</Network>
   <MyIP/>
   <Shell>sh</Shell>
   <Privileged>false</Privileged>
   <Support/>
-  <Project>https://github.com/cosmicflow2512/tg2sab</Project>
+  <Project>https://github.com/cosmicflow2512/tg2nzb</Project>
   <Overview>Telegram channel to SABnzbd bridge. Listens to configured Telegram channels via a Telethon userbot, downloads posted .nzb attachments and uploads them to SABnzbd (mode=addfile) with category, priority and an optional password parsed from the caption. Sends Pushover notifications.
 
-IMPORTANT: First run must be done interactively to enter the Telegram login code: docker run --rm -it -v /mnt/cache/appdata/tg2sab/config:/config -v /mnt/cache/appdata/tg2sab/data:/data tg2sab:latest  -- then start normally from the GUI.</Overview>
+IMPORTANT: First run must be done interactively to enter the Telegram login code: docker run --rm -it -v /mnt/cache/appdata/tg2nzb/config:/config -v /mnt/cache/appdata/tg2nzb/data:/data tg2nzb:latest  -- then start normally from the GUI.</Overview>
   <Category>Downloaders Tools:Utilities</Category>
   <WebUI/>
   <TemplateURL/>
-  <Icon>https://raw.githubusercontent.com/cosmicflow2512/tg2sab/main/assets/icon.png</Icon>
+  <Icon>https://raw.githubusercontent.com/cosmicflow2512/tg2nzb/main/assets/icon.png</Icon>
   <ExtraParams>--restart unless-stopped</ExtraParams>
   <PostArgs/>
   <CPUset/>
@@ -23,8 +23,8 @@ IMPORTANT: First run must be done interactively to enter the Telegram login code
   <DonateText/>
   <DonateLink/>
   <Requires/>
-  <Config Name="Config Directory" Target="/config" Default="/mnt/cache/appdata/tg2sab/config" Mode="rw" Description="Holds config.yaml. ENV variables below override values in that file." Type="Path" Display="always" Required="true" Mask="false">/mnt/cache/appdata/tg2sab/config</Config>
-  <Config Name="Data Directory" Target="/data" Default="/mnt/cache/appdata/tg2sab/data" Mode="rw" Description="Telegram session, SQLite dedup database, heartbeat. Do NOT delete the session file." Type="Path" Display="always" Required="true" Mask="false">/mnt/cache/appdata/tg2sab/data</Config>
+  <Config Name="Config Directory" Target="/config" Default="/mnt/cache/appdata/tg2nzb/config" Mode="rw" Description="Holds config.yaml. ENV variables below override values in that file." Type="Path" Display="always" Required="true" Mask="false">/mnt/cache/appdata/tg2nzb/config</Config>
+  <Config Name="Data Directory" Target="/data" Default="/mnt/cache/appdata/tg2nzb/data" Mode="rw" Description="Telegram session, SQLite dedup database, heartbeat. Do NOT delete the session file." Type="Path" Display="always" Required="true" Mask="false">/mnt/cache/appdata/tg2nzb/data</Config>
   <Config Name="Telegram API ID" Target="TG_API_ID" Default="" Mode="" Description="api_id from https://my.telegram.org" Type="Variable" Display="always" Required="true" Mask="false"/>
   <Config Name="Telegram API Hash" Target="TG_API_HASH" Default="" Mode="" Description="api_hash from https://my.telegram.org" Type="Variable" Display="always" Required="true" Mask="true"/>
   <Config Name="Channels" Target="TG_CHANNELS" Default="" Mode="" Description="Comma-separated: @username or numeric IDs like -1002299893123" Type="Variable" Display="always" Required="true" Mask="false"/>

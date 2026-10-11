@@ -11,7 +11,7 @@ import time
 
 import requests
 
-log = logging.getLogger("tg2sab.sab")
+log = logging.getLogger("tg2nzb.sab")
 
 
 class SabError(RuntimeError):

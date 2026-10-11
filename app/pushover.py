@@ -3,7 +3,7 @@ import logging
 
 import requests
 
-log = logging.getLogger("tg2sab.push")
+log = logging.getLogger("tg2nzb.push")
 
 _API_URL = "https://api.pushover.net/1/messages.json"
 

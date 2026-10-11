@@ -1,5 +1,5 @@
 #!/bin/sh
-# tg2sab entrypoint - sets up runtime user/group and drops privileges via gosu.
+# tg2nzb entrypoint - sets up runtime user/group and drops privileges via gosu.
 # Honors PUID/PGID env vars (Unraid standard: 99:100 = nobody:users).
 set -e
 
@@ -14,12 +14,12 @@ fi
 
 # Ensure group with the requested GID exists.
 if ! getent group "${PGID}" >/dev/null 2>&1; then
-    groupadd -g "${PGID}" tg2sab
+    groupadd -g "${PGID}" tg2nzb
 fi
 
 # Ensure user with the requested UID exists.
 if ! getent passwd "${PUID}" >/dev/null 2>&1; then
-    useradd -u "${PUID}" -g "${PGID}" -d /home/tg2sab -M -s /bin/sh tg2sab
+    useradd -u "${PUID}" -g "${PGID}" -d /home/tg2nzb -M -s /bin/sh tg2nzb
 fi
 
 # Make sure bind-mounted volumes belong to the runtime user.

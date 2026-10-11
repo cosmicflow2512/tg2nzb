@@ -1,5 +1,5 @@
 """
-tg2sab - Telegram channel → SABnzbd bridge.
+tg2nzb - Telegram channel → SABnzbd bridge.
 Listens to configured channels, downloads posted .nzb attachments and uploads
 them to SABnzbd via mode=addfile.
 """
@@ -26,7 +26,7 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
 )
-log = logging.getLogger("tg2sab")
+log = logging.getLogger("tg2nzb")
 logging.getLogger("telethon").setLevel(logging.WARNING)
 
 
@@ -218,7 +218,7 @@ class App:
             self.storage.mark_processed(chat_id, msg.id)
             return False
 
-        filename = sanitize(attachment_name(msg)) or f"tg2sab_{msg.id}.nzb"
+        filename = sanitize(attachment_name(msg)) or f"tg2nzb_{msg.id}.nzb"
         text = message_text(msg)
         log.info("%s %s NZB: %s", tag, "Backfill" if backfill else "Live", filename)
 
@@ -273,7 +273,7 @@ class App:
         except Exception as e:
             log.error("%s SABnzbd upload failed: %s", tag, e)
             if self.push and not backfill:
-                await asyncio.to_thread(self.push.send, title="tg2sab: SABnzbd upload failed",
+                await asyncio.to_thread(self.push.send, title="tg2nzb: SABnzbd upload failed",
                                         message=f"{chat_name}\n{display}\n{e}", priority=1)
             return False
 

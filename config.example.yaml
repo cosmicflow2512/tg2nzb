@@ -1,5 +1,5 @@
-# tg2sab configuration
-# Place this file at /mnt/cache/appdata/tg2sab/config/config.yaml on Unraid.
+# tg2nzb configuration
+# Place this file at /mnt/cache/appdata/tg2nzb/config/config.yaml on Unraid.
 
 telegram:
   # https://my.telegram.org → API development tools
@@ -18,7 +18,7 @@ sabnzbd:
   url: "http://192.168.0.20:8080"
 
   # SABnzbd → Config → General. The NZB key is enough (it can only add jobs).
-  # With the full API key, tg2sab additionally checks at startup that the categories exist.
+  # With the full API key, tg2nzb additionally checks at startup that the categories exist.
   api_key: "your-nzb-key"
 
   # Default category ("" = SAB default). Destination folder, post-processing and

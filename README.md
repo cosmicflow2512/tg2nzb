@@ -1,4 +1,4 @@
-# tg2sab
+# tg2nzb
 
 Telegram channel → SABnzbd bridge. Picks up `.nzb` files posted as attachments
 in Telegram channels and uploads them to SABnzbd.
@@ -34,17 +34,17 @@ SABnzbd API reference: <https://sabnzbd.org/wiki/configuration/5.1/api>
 ## Setup on Unraid
 
 ```sh
-mkdir -p /mnt/cache/appdata/tg2sab/config /mnt/cache/appdata/tg2sab/data
+mkdir -p /mnt/cache/appdata/tg2nzb/config /mnt/cache/appdata/tg2nzb/data
 cd /mnt/user/appdata
-git clone https://github.com/cosmicflow2512/tg2sab.git tg2sab-src
-cd tg2sab-src
-cp config.example.yaml /mnt/cache/appdata/tg2sab/config/config.yaml
+git clone https://github.com/cosmicflow2512/tg2nzb.git tg2nzb-src
+cd tg2nzb-src
+cp config.example.yaml /mnt/cache/appdata/tg2nzb/config/config.yaml
 # edit config.yaml: api_id/api_hash, channels, sabnzbd.url, sabnzbd.api_key, categories
 
 docker compose build
-docker compose run --rm -it tg2sab   # first run: phone number + Telegram code
+docker compose run --rm -it tg2nzb   # first run: phone number + Telegram code
 docker compose up -d
-docker compose logs -f tg2sab
+docker compose logs -f tg2nzb
 ```
 
 The Telegram session is a separate login from tg2jd. Copying tg2jd's
@@ -54,12 +54,12 @@ session file in parallel is not supported by Telethon — log in fresh.
 ## SABnzbd key
 
 The **NZB key** (SABnzbd → Config → General) is sufficient: it can only add
-jobs. With the full **API key** tg2sab also reads `get_cats` at startup and
+jobs. With the full **API key** tg2nzb also reads `get_cats` at startup and
 warns about categories that don't exist in SAB.
 
 ## Destination folder
 
-There is no download path in tg2sab. The folder, post-processing and script
+There is no download path in tg2nzb. The folder, post-processing and script
 come from the SAB **category**: `sabnzbd.category` globally,
 `sabnzbd.channel_categories` per channel (keys: `@username`, title or chat id).
 

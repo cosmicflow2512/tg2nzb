@@ -1,18 +1,18 @@
-name: tg2sab
+name: tg2nzb
 
 services:
-  tg2sab:
+  tg2nzb:
     build: .
-    image: tg2sab:latest
-    container_name: tg2sab
+    image: tg2nzb:latest
+    container_name: tg2nzb
     restart: unless-stopped
     stdin_open: true   # required for first-run interactive Telegram login
     tty: true
     volumes:
       # Direct cache pool path to avoid FUSE overhead and Mover interference.
       # If your cache pool has a different name, replace 'cache' accordingly.
-      - /mnt/cache/appdata/tg2sab/config:/config
-      - /mnt/cache/appdata/tg2sab/data:/data
+      - /mnt/cache/appdata/tg2nzb/config:/config
+      - /mnt/cache/appdata/tg2nzb/data:/data
     environment:
       - TZ=Europe/Berlin
       # Unraid standard: nobody:users. Override if you need a different runtime user.
