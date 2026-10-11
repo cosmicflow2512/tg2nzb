@@ -33,6 +33,8 @@ class SabClient:
         """Needs the full API key; returns None if only the NZB key is configured."""
         r = requests.get(self.api, params={"mode": "get_cats", "output": "json", "apikey": self.api_key},
                          timeout=self.timeout)
+        if r.status_code == 403:  # NZB key: no read access
+            return None
         r.raise_for_status()
         data = r.json()
         if "categories" not in data:

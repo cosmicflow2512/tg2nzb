@@ -215,6 +215,14 @@ class App:
         cfg = self.cfg
 
         if not is_nzb_attachment(msg, cfg.file_extensions):
+            if getattr(msg, "document", None):
+                f = getattr(msg, "file", None)
+                log.info("%s document is not an NZB (name=%r, mime=%r), skipping", tag,
+                         getattr(f, "name", None), getattr(f, "mime_type", None))
+            elif getattr(msg, "media", None):
+                log.info("%s media %s, no document, skipping", tag, type(msg.media).__name__)
+            else:
+                log.info("%s text only, skipping: %r", tag, (message_text(msg) or "")[:80])
             self.storage.mark_processed(chat_id, msg.id)
             return False
 
