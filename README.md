@@ -50,6 +50,16 @@ repository to `tg2nzb:latest`.
 The Telegram session is a separate login from tg2jd. Running two clients on the
 same session file in parallel is not supported by Telethon — log in fresh.
 
+## Groups with topics
+
+Topics are not separate chats: list the group itself in `channels`
+(`-100<id>` from a message link `t.me/c/<id>/<topic>/<msg>`) and restrict with
+`TG_TOPICS` / `telegram.topics` (global) or `telegram.channel_topics` (per
+channel). `1` is the General topic. Every log line shows the topic as
+`[Group/topic N/msg]`. The backfill scans the last `backfill_limit` messages of
+the whole group, so raise it when the wanted topic is only a small part of the
+traffic.
+
 ## SABnzbd key
 
 The **NZB key** (SABnzbd → Config → General) is sufficient: it can only add
@@ -70,6 +80,7 @@ come from the SAB **category**: `sabnzbd.category` globally,
 | `telegram.api_hash`          | `TG_API_HASH`            |
 | `telegram.channels`          | `TG_CHANNELS` (comma-separated) |
 | `telegram.session_dir`       | `TG_SESSION_DIR`         |
+| `telegram.topics`            | `TG_TOPICS` (comma-separated) |
 | `sabnzbd.url`                | `SAB_URL`                |
 | `sabnzbd.api_key`            | `SAB_API_KEY`            |
 | `sabnzbd.category`           | `SAB_CATEGORY`           |

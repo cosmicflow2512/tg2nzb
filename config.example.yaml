@@ -13,6 +13,13 @@ telegram:
 
   session_dir: /data/session
 
+  # Groups with topics (forum mode): only accept these topic IDs (empty = all).
+  # Topic ID = number after the chat ID in a message link: t.me/c/<chat>/<topic>/<msg>
+  # 1 = General topic. The chat ID for channels: is -100<chat>.
+  topics: []
+  channel_topics:
+    # -1003755467218: [14508]
+
 sabnzbd:
   # Base URL as reachable from THIS container, incl. url_base if you set one in SAB.
   url: "http://192.168.0.20:8080"

@@ -25,6 +25,8 @@ class Config:
     tg_api_hash: str = ""
     channels: list = field(default_factory=list)
     session_dir: str = "/data/session"
+    topics: list = field(default_factory=list)          # forum topic ids to accept (empty = all)
+    channel_topics: dict = field(default_factory=dict)  # per-channel override ([] = all)
 
     sab_url: str = ""                       # e.g. http://192.168.0.20:8080 (with url_base if set)
     sab_api_key: str = ""                   # NZB key is enough (only adds jobs)
@@ -75,6 +77,8 @@ class Config:
             tg_api_hash=env("TG_API_HASH", tg.get("api_hash", "")),
             channels=tg.get("channels", []) or [],
             session_dir=env("TG_SESSION_DIR", tg.get("session_dir", "/data/session")),
+            topics=[int(t) for t in _as_list(env("TG_TOPICS", tg.get("topics", [])))],
+            channel_topics={k: [int(t) for t in _as_list(v)] for k, v in (tg.get("channel_topics", {}) or {}).items()},
             sab_url=str(env("SAB_URL", sab.get("url", ""))).rstrip("/"),
             sab_api_key=env("SAB_API_KEY", sab.get("api_key", "")),
             sab_category=env("SAB_CATEGORY", sab.get("category", "")) or "",

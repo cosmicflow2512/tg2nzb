@@ -46,6 +46,18 @@ def message_text(msg) -> str:
     return ""
 
 
+def topic_id(msg, chat) -> int | None:
+    """Forum topic of a message. None for chats without topics; 1 = General topic.
+    Topic messages carry reply_to.forum_topic; the topic id is reply_to_top_id, or
+    reply_to_msg_id when the message is not a reply inside the topic."""
+    if not getattr(chat, "forum", False):
+        return None
+    rt = getattr(msg, "reply_to", None)
+    if rt is not None and getattr(rt, "forum_topic", False):
+        return getattr(rt, "reply_to_top_id", None) or getattr(rt, "reply_to_msg_id", None)
+    return 1
+
+
 def _lookup(overrides: dict, raw, chat, chat_id):
     """Per-channel override lookup. Keys: identifier as written in channels:,
     @username, username, title, numeric chat_id (int or str). Returns (found, value)."""
@@ -211,8 +223,16 @@ class App:
         failures (download, SAB unreachable) stay unmarked so the next start retries."""
         if self.storage.is_processed(chat_id, msg.id):
             return False
-        tag = f"[{chat_name}/{msg.id}]"
         cfg = self.cfg
+        topic = topic_id(msg, chat)
+        tag = f"[{chat_name}/{msg.id}]" if topic is None else f"[{chat_name}/topic {topic}/{msg.id}]"
+
+        found, topics = _lookup(cfg.channel_topics, raw, chat, chat_id)
+        topics = topics if found else cfg.topics
+        if topics and topic is not None and topic not in topics:
+            log.info("%s topic %s not in %s, skipping", tag, topic, topics)
+            self.storage.mark_processed(chat_id, msg.id)
+            return False
 
         if not is_nzb_attachment(msg, cfg.file_extensions):
             if getattr(msg, "document", None):
