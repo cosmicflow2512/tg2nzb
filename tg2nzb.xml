@@ -11,12 +11,12 @@
   <Project>https://github.com/cosmicflow2512/tg2nzb</Project>
   <Overview>Telegram channel to SABnzbd bridge. Listens to configured Telegram channels via a Telethon userbot, downloads posted .nzb attachments and uploads them to SABnzbd (mode=addfile) with category, priority and an optional password parsed from the caption. Sends Pushover notifications.
 
-IMPORTANT: First run must be done interactively to enter the Telegram login code: docker run --rm -it -v /mnt/cache/appdata/tg2nzb/config:/config -v /mnt/cache/appdata/tg2nzb/data:/data tg2nzb:latest  -- then start normally from the GUI.</Overview>
+IMPORTANT: First start needs the Telegram login. Start the container, then in the Unraid terminal run: docker attach tg2nzb  -- enter phone number and code, detach with Ctrl+P then Ctrl+Q (Ctrl+C stops the container). The session is stored in /data and reused afterwards.</Overview>
   <Category>Downloaders Tools:Utilities</Category>
   <WebUI/>
   <TemplateURL/>
   <Icon>https://raw.githubusercontent.com/cosmicflow2512/tg2nzb/main/assets/icon.png</Icon>
-  <ExtraParams>--restart unless-stopped</ExtraParams>
+  <ExtraParams>--restart unless-stopped -it</ExtraParams>
   <PostArgs/>
   <CPUset/>
   <DateInstalled/>
